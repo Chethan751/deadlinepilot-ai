@@ -2,7 +2,18 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/use-auth";
 import { AnimatedBg } from "@/components/app/animated-bg";
 import { supabase } from "@/integrations/supabase/client";
-import { LayoutDashboard, ListChecks, Sparkles, Timer, BarChart3, Settings, Rocket, LogOut, Menu, X } from "lucide-react";
+import {
+  LayoutDashboard,
+  ListChecks,
+  Sparkles,
+  Timer,
+  BarChart3,
+  Settings,
+  Rocket,
+  LogOut,
+  Menu,
+  X,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -47,10 +58,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Mobile header */}
       <header className="md:hidden sticky top-0 z-30 glass-strong border-b border-white/10 px-4 py-3 flex items-center justify-between">
         <Link to="/dashboard" className="flex items-center gap-2">
-          <div className="grid place-items-center h-8 w-8 rounded-lg bg-gradient-primary"><Rocket className="h-4 w-4 text-white" /></div>
+          <div className="grid place-items-center h-8 w-8 rounded-lg bg-gradient-primary">
+            <Rocket className="h-4 w-4 text-white" />
+          </div>
           <span className="font-display font-bold">DeadlinePilot</span>
         </Link>
-        <button onClick={() => setMobileOpen((v) => !v)} className="p-2 rounded-lg hover:bg-white/5">
+        <button
+          onClick={() => setMobileOpen((v) => !v)}
+          className="p-2 rounded-lg hover:bg-white/5"
+        >
           {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </header>
@@ -65,10 +81,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           )}
         >
           <Link to="/dashboard" className="hidden md:flex items-center gap-2 mb-8">
-            <div className="grid place-items-center h-9 w-9 rounded-xl bg-gradient-primary shadow-[var(--shadow-glow)]"><Rocket className="h-4 w-4 text-white" /></div>
+            <div className="grid place-items-center h-9 w-9 rounded-xl bg-gradient-primary shadow-[var(--shadow-glow)]">
+              <Rocket className="h-4 w-4 text-white" />
+            </div>
             <div>
               <div className="font-display font-bold leading-tight">DeadlinePilot</div>
-              <div className="text-[10px] uppercase tracking-widest text-muted-foreground">AI Companion</div>
+              <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                AI Companion
+              </div>
             </div>
           </Link>
           <nav className="flex flex-col gap-1">
@@ -94,11 +114,18 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </nav>
           <div className="mt-auto absolute bottom-6 left-4 right-4">
             <div className="glass rounded-xl p-3 text-xs">
-              <div className="truncate font-medium">{user.user_metadata?.full_name || user.email}</div>
+              <div className="truncate font-medium">
+                {user.user_metadata?.full_name || user.email}
+              </div>
               <div className="truncate text-muted-foreground text-[11px]">{user.email}</div>
               <Button
-                onClick={async () => { await supabase.auth.signOut(); nav({ to: "/auth" }); }}
-                variant="ghost" size="sm" className="w-full mt-2 text-muted-foreground hover:text-foreground"
+                onClick={async () => {
+                  await supabase.auth.signOut();
+                  nav({ to: "/auth" });
+                }}
+                variant="ghost"
+                size="sm"
+                className="w-full mt-2 text-muted-foreground hover:text-foreground"
               >
                 <LogOut className="h-3.5 w-3.5 mr-2" /> Sign out
               </Button>
@@ -106,12 +133,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
         </aside>
 
-        <main className="flex-1 min-w-0 px-4 md:px-8 py-6 md:py-8">
-          {children}
-        </main>
+        <main className="flex-1 min-w-0 px-4 md:px-8 py-6 md:py-8">{children}</main>
       </div>
 
       <FloatingChat />
     </div>
   );
-}// trigger
+} // trigger

@@ -81,17 +81,35 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "DeadlinePilot AI — Your Autonomous Productivity Companion" },
-      { name: "description", content: "AI that extracts, prioritizes, and schedules your tasks before deadlines slip. Powered by Gemini." },
+      {
+        name: "description",
+        content:
+          "AI that extracts, prioritizes, and schedules your tasks before deadlines slip. Powered by Gemini.",
+      },
       { name: "author", content: "DeadlinePilot" },
       { property: "og:title", content: "DeadlinePilot AI" },
-      { property: "og:description", content: "Plan, prioritize, and finish before the deadline — autonomously." },
+      {
+        property: "og:description",
+        content: "Plan, prioritize, and finish before the deadline — autonomously.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@DeadlinePilot" },
       { name: "twitter:title", content: "DeadlinePilot AI" },
-      { name: "twitter:description", content: "Plan, prioritize, and finish before the deadline — autonomously." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/3fe6fa1d-c0a8-44a0-8737-4bb57192780e/id-preview-dd5c2a4d--5b0068fc-4f73-412a-9d2a-49ca367b331f.lovable.app-1782803215550.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/3fe6fa1d-c0a8-44a0-8737-4bb57192780e/id-preview-dd5c2a4d--5b0068fc-4f73-412a-9d2a-49ca367b331f.lovable.app-1782803215550.png" },
+      {
+        name: "twitter:description",
+        content: "Plan, prioritize, and finish before the deadline — autonomously.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/3fe6fa1d-c0a8-44a0-8737-4bb57192780e/id-preview-dd5c2a4d--5b0068fc-4f73-412a-9d2a-49ca367b331f.lovable.app-1782803215550.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/3fe6fa1d-c0a8-44a0-8737-4bb57192780e/id-preview-dd5c2a4d--5b0068fc-4f73-412a-9d2a-49ca367b331f.lovable.app-1782803215550.png",
+      },
     ],
     links: [
       {
@@ -150,7 +168,10 @@ function AuthRedirector() {
 
     void checkSession();
     const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
-      if ((event === "SIGNED_IN" || event === "INITIAL_SESSION" || event === "TOKEN_REFRESHED") && session) {
+      if (
+        (event === "SIGNED_IN" || event === "INITIAL_SESSION" || event === "TOKEN_REFRESHED") &&
+        session
+      ) {
         goHome();
       }
     });

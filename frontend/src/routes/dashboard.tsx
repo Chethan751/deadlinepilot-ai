@@ -11,7 +11,11 @@ import { AppShell } from "@/components/app/app-shell";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — DeadlinePilot" }] }),
-  component: () => <AppShell><Dashboard /></AppShell>,
+  component: () => (
+    <AppShell>
+      <Dashboard />
+    </AppShell>
+  ),
 });
 
 const QUOTES = [
@@ -24,13 +28,19 @@ const QUOTES = [
 function Dashboard() {
   const { data: tasks = [], isLoading } = useQuery({ queryKey: ["tasks"], queryFn: fetchTasks });
 
-  const today = new Date(); today.setHours(0,0,0,0);
-  const tomorrow = new Date(today); tomorrow.setDate(today.getDate()+1);
-  const todays = tasks.filter(t => t.deadline && new Date(t.deadline) >= today && new Date(t.deadline) < tomorrow);
-  const upcoming = tasks.filter(t => t.status !== "completed" && t.deadline && new Date(t.deadline) >= tomorrow).slice(0,5);
-  const completed = tasks.filter(t => t.status === "completed").length;
-  const pending = tasks.filter(t => t.status !== "completed").length;
-  const critical = tasks.filter(t => t.risk === "critical" && t.status !== "completed").length;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+  const todays = tasks.filter(
+    (t) => t.deadline && new Date(t.deadline) >= today && new Date(t.deadline) < tomorrow,
+  );
+  const upcoming = tasks
+    .filter((t) => t.status !== "completed" && t.deadline && new Date(t.deadline) >= tomorrow)
+    .slice(0, 5);
+  const completed = tasks.filter((t) => t.status === "completed").length;
+  const pending = tasks.filter((t) => t.status !== "completed").length;
+  const critical = tasks.filter((t) => t.risk === "critical" && t.status !== "completed").length;
   const total = tasks.length;
   const score = total > 0 ? Math.round((completed / total) * 100) : 0;
   const quote = QUOTES[new Date().getDate() % QUOTES.length];
@@ -62,14 +72,23 @@ function Dashboard() {
         {stats.map((s, i) => {
           const Icon = s.icon;
           return (
-            <motion.div key={s.label} initial={{ opacity:0, y: 10 }} animate={{ opacity:1, y: 0 }} transition={{ delay: i*0.05 }}>
+            <motion.div
+              key={s.label}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05 }}
+            >
               <GlassCard className="relative overflow-hidden">
                 <div className="absolute -right-6 -top-6 h-20 w-20 rounded-full bg-gradient-primary opacity-20 blur-2xl" />
                 <div className="flex items-center justify-between">
-                  <span className="text-xs uppercase tracking-wider text-muted-foreground">{s.label}</span>
+                  <span className="text-xs uppercase tracking-wider text-muted-foreground">
+                    {s.label}
+                  </span>
                   <Icon className="h-4 w-4 text-muted-foreground" />
                 </div>
-                <div className="font-display text-3xl font-bold mt-2">{isLoading ? "—" : s.value}</div>
+                <div className="font-display text-3xl font-bold mt-2">
+                  {isLoading ? "—" : s.value}
+                </div>
               </GlassCard>
             </motion.div>
           );
@@ -80,20 +99,28 @@ function Dashboard() {
         <GlassCard className="lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-display text-lg font-semibold">Today's tasks</h2>
-            <Link to="/tasks" className="text-xs text-primary hover:underline">View all →</Link>
+            <Link to="/tasks" className="text-xs text-primary hover:underline">
+              View all →
+            </Link>
           </div>
           {todays.length === 0 ? (
             <EmptyState />
           ) : (
             <ul className="space-y-2">
-              {todays.map(t => (
+              {todays.map((t) => (
                 <li key={t.id} className="glass rounded-xl p-3 flex items-center gap-3">
                   <div className="h-2 w-2 rounded-full bg-gradient-primary" />
                   <div className="flex-1 min-w-0">
                     <div className="font-medium truncate">{t.title}</div>
-                    <div className="text-xs text-muted-foreground">{relativeDeadline(t.deadline)} · {t.estimated_minutes}m</div>
+                    <div className="text-xs text-muted-foreground">
+                      {relativeDeadline(t.deadline)} · {t.estimated_minutes}m
+                    </div>
                   </div>
-                  <span className={`text-[10px] px-2 py-0.5 rounded-full border ${riskColor(t.risk)}`}>{t.risk}</span>
+                  <span
+                    className={`text-[10px] px-2 py-0.5 rounded-full border ${riskColor(t.risk)}`}
+                  >
+                    {t.risk}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -117,13 +144,22 @@ function Dashboard() {
           <EmptyState message="No upcoming deadlines. You're cruising." />
         ) : (
           <ul className="space-y-2">
-            {upcoming.map(t => (
-              <li key={t.id} className="glass rounded-xl p-3 flex items-center justify-between gap-3">
+            {upcoming.map((t) => (
+              <li
+                key={t.id}
+                className="glass rounded-xl p-3 flex items-center justify-between gap-3"
+              >
                 <div className="min-w-0">
                   <div className="font-medium truncate">{t.title}</div>
-                  <div className="text-xs text-muted-foreground">{relativeDeadline(t.deadline)}</div>
+                  <div className="text-xs text-muted-foreground">
+                    {relativeDeadline(t.deadline)}
+                  </div>
                 </div>
-                <span className={`text-[10px] px-2 py-0.5 rounded-full border ${riskColor(t.risk)}`}>{t.risk}</span>
+                <span
+                  className={`text-[10px] px-2 py-0.5 rounded-full border ${riskColor(t.risk)}`}
+                >
+                  {t.risk}
+                </span>
               </li>
             ))}
           </ul>
@@ -133,13 +169,19 @@ function Dashboard() {
   );
 }
 
-function EmptyState({ message = "Nothing scheduled yet. Use the AI Planner to drop in your week." }: { message?: string }) {
+function EmptyState({
+  message = "Nothing scheduled yet. Use the AI Planner to drop in your week.",
+}: {
+  message?: string;
+}) {
   return (
     <div className="text-center py-10 text-sm text-muted-foreground">
       <Sparkles className="h-6 w-6 mx-auto mb-2 text-primary" />
       {message}
       <div className="mt-3">
-        <Link to="/planner" className="text-primary text-sm hover:underline">Open AI Planner →</Link>
+        <Link to="/planner" className="text-primary text-sm hover:underline">
+          Open AI Planner →
+        </Link>
       </div>
     </div>
   );

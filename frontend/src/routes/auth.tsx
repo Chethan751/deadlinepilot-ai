@@ -58,7 +58,9 @@ function AuthPage() {
 
   async function google() {
     setBusy(true);
-    const res = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
+    const res = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin,
+    });
     if (res.error) toast.error("Google sign-in failed");
     if (!res.error && !res.redirected) nav({ to: "/dashboard", replace: true });
     setBusy(false);
@@ -79,35 +81,76 @@ function AuthPage() {
             {mode === "signin" ? "Welcome back" : "Take flight"}
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            {mode === "signin" ? "Sign in to your autonomous companion" : "Create your DeadlinePilot account"}
+            {mode === "signin"
+              ? "Sign in to your autonomous companion"
+              : "Create your DeadlinePilot account"}
           </p>
 
-          <Button onClick={google} disabled={busy} variant="outline" className="w-full mt-5 glass border-white/10">
-            <svg className="h-4 w-4 mr-2" viewBox="0 0 24 24"><path fill="#fff" d="M21.35 11.1H12v3.2h5.35c-.23 1.23-1.46 3.6-5.35 3.6-3.22 0-5.84-2.66-5.84-5.95s2.62-5.95 5.84-5.95c1.83 0 3.06.78 3.76 1.45l2.56-2.47C16.83 3.5 14.65 2.5 12 2.5 6.76 2.5 2.5 6.76 2.5 12S6.76 21.5 12 21.5c6.93 0 9.5-4.85 9.5-7.34 0-.5-.05-.84-.15-1.06Z"/></svg>
+          <Button
+            onClick={google}
+            disabled={busy}
+            variant="outline"
+            className="w-full mt-5 glass border-white/10"
+          >
+            <svg className="h-4 w-4 mr-2" viewBox="0 0 24 24">
+              <path
+                fill="#fff"
+                d="M21.35 11.1H12v3.2h5.35c-.23 1.23-1.46 3.6-5.35 3.6-3.22 0-5.84-2.66-5.84-5.95s2.62-5.95 5.84-5.95c1.83 0 3.06.78 3.76 1.45l2.56-2.47C16.83 3.5 14.65 2.5 12 2.5 6.76 2.5 2.5 6.76 2.5 12S6.76 21.5 12 21.5c6.93 0 9.5-4.85 9.5-7.34 0-.5-.05-.84-.15-1.06Z"
+              />
+            </svg>
             Continue with Google
           </Button>
 
           <div className="flex items-center gap-3 my-5 text-xs text-muted-foreground">
-            <div className="flex-1 h-px bg-white/10" /> OR <div className="flex-1 h-px bg-white/10" />
+            <div className="flex-1 h-px bg-white/10" /> OR{" "}
+            <div className="flex-1 h-px bg-white/10" />
           </div>
 
           <form onSubmit={submit} className="space-y-3">
             {mode === "signup" && (
               <div>
                 <Label>Name</Label>
-                <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Ada Lovelace" className="glass border-white/10 mt-1" />
+                <Input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Ada Lovelace"
+                  className="glass border-white/10 mt-1"
+                />
               </div>
             )}
             <div>
               <Label>Email</Label>
-              <Input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="glass border-white/10 mt-1" />
+              <Input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="glass border-white/10 mt-1"
+              />
             </div>
             <div>
               <Label>Password</Label>
-              <Input type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} className="glass border-white/10 mt-1" />
+              <Input
+                type="password"
+                required
+                minLength={6}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="glass border-white/10 mt-1"
+              />
             </div>
-            <Button type="submit" disabled={busy} className="w-full bg-gradient-primary text-white shadow-[var(--shadow-glow)] hover:opacity-95">
-              {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : mode === "signin" ? "Sign in" : "Create account"}
+            <Button
+              type="submit"
+              disabled={busy}
+              className="w-full bg-gradient-primary text-white shadow-[var(--shadow-glow)] hover:opacity-95"
+            >
+              {busy ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : mode === "signin" ? (
+                "Sign in"
+              ) : (
+                "Create account"
+              )}
             </Button>
           </form>
 
@@ -115,7 +158,9 @@ function AuthPage() {
             onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
             className="mt-5 text-sm text-muted-foreground hover:text-foreground w-full text-center"
           >
-            {mode === "signin" ? "New here? Create an account →" : "Already have an account? Sign in →"}
+            {mode === "signin"
+              ? "New here? Create an account →"
+              : "Already have an account? Sign in →"}
           </button>
         </GlassCard>
       </div>

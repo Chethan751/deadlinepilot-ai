@@ -7,7 +7,11 @@ import { AppShell } from "@/components/app/app-shell";
 
 export const Route = createFileRoute("/settings")({
   head: () => ({ meta: [{ title: "Settings — DeadlinePilot" }] }),
-  component: () => <AppShell><Settings /></AppShell>,
+  component: () => (
+    <AppShell>
+      <Settings />
+    </AppShell>
+  ),
 });
 
 function Settings() {
@@ -33,7 +37,16 @@ function Settings() {
       <GlassCard>
         <h3 className="font-display font-semibold mb-2">Session</h3>
         <p className="text-sm text-muted-foreground mb-4">Sign out of this device.</p>
-        <Button variant="outline" className="glass border-white/10" onClick={async ()=>{ await supabase.auth.signOut(); nav({to:"/auth"}); }}>Sign out</Button>
+        <Button
+          variant="outline"
+          className="glass border-white/10"
+          onClick={async () => {
+            await supabase.auth.signOut();
+            nav({ to: "/auth" });
+          }}
+        >
+          Sign out
+        </Button>
       </GlassCard>
     </div>
   );
